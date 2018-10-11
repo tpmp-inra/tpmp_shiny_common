@@ -2,6 +2,18 @@ library(tidyverse)
 library(shiny)
 library(gtools)
 
+#' fill_plant_selection
+#'
+#' @param df
+#' @param input_id
+#' @param label_id
+#' @param selected_text_format
+#' @param preseselct_all
+#'
+#' @return
+#' @export
+#'
+#' @examples
 fill_plant_selection <- function(df,
                                  input_id="cbPlantSelection",
                                  label_id="Select plants to be displayed",

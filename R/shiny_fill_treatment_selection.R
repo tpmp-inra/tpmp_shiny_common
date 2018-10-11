@@ -2,6 +2,17 @@ library(tidyverse)
 library(shiny)
 library(gtools)
 
+#' fill_treatment_selection
+#'
+#' @param df
+#' @param input_id
+#' @param label_id
+#' @param selected_text_format
+#'
+#' @return
+#' @export
+#'
+#' @examples
 fill_treatment_selection <- function(df,
                                      input_id="cbTreatmentSelection",
                                      label_id="Select treatments to be displayed",

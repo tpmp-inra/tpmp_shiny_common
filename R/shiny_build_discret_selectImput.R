@@ -28,6 +28,9 @@ build_discret_selectImput <- function(df,
     cb_choices <- as.list(dsnames)
   }
   cb_options <- cb_choices[mixedorder(unlist(cb_choices),decreasing=F)]
+  if (!selected_item %in% cb_options) {
+    selected_item <- NULL
+  }
   selectInput(inputId =  input_id,
               label = label_id,
               choices = cb_choices,

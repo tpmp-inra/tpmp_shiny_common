@@ -2,6 +2,16 @@ library(tidyverse)
 library(shiny)
 library(gtools)
 
+#' fill_time_selection
+#'
+#' @param df
+#' @param input_id
+#' @param label_id
+#'
+#' @return
+#' @export
+#'
+#' @examples
 fill_time_selection <- function(df, input_id = "cbDateTimeSelector", label_id = "Select days to be displayed") {
   df <- df %>% select(trunc_day_after_start)
   df <- df[!(duplicated(df) | duplicated(df, fromLast = FALSE)), ]

@@ -2,6 +2,14 @@ library(tidyverse)
 library(shiny)
 library(gtools)
 
+#' fill_palette_selector
+#'
+#' @param input_id
+#'
+#' @return
+#' @export
+#'
+#' @examples
 fill_palette_selector <- function(input_id="cbPaletteSelector") {
   selectInput(input_id,
               "Color Palette:",

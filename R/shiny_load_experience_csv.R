@@ -2,6 +2,14 @@ library(tidyverse)
 library(shiny)
 library(gtools)
 
+#' load_experience_csv
+#'
+#' @param input
+#'
+#' @return
+#' @export
+#'
+#' @examples
 load_experience_csv <- function(input) {
 
   infile <- input$datafile
@@ -10,22 +18,23 @@ load_experience_csv <- function(input) {
     return(NULL)
   }
   tmp <- read_csv(infile$datapath)
+  names(tmp) <- tolower(names(tmp))
 
   # Factorize all and set all strings to lower case
 
 
   # If file is really raw use the median
   if ("series_id" %in% colnames(tmp)) {
-    # columns_to_remove = c()
-    # if ("view_option" %in% colnames(tmp)) {
-    #   columns_to_remove <- c('view_option', columns_to_remove)
-    # }
+    columns_to_remove = c()
+    if ("view_option" %in% colnames(tmp)) {
+      columns_to_remove <- c('view_option', columns_to_remove)
+    }
     if ("experiment" %in% colnames(tmp)) {
       columns_to_remove <- c('experiment', columns_to_remove)
     }
-    # if ("camera" %in% colnames(tmp)) {
-    #   columns_to_remove <- c('camera', columns_to_remove)
-    # }
+    if ("camera" %in% colnames(tmp)) {
+      columns_to_remove <- c('camera', columns_to_remove)
+    }
     tmp <-
       tmp %>%
       select(-col_to_remove) %>%
@@ -75,11 +84,16 @@ load_experience_csv <- function(input) {
     if (!("trunc_disease_index" %in% colnames(tmp))) {
       tmp <- tmp %>% mutate(trunc_disease_index = as.character(trunc(disease_index)))
     }
-
-  } else {
-    tmp <- tmp %>%
-      mutate(disease_index = 0) %>%
-      mutate(trunc_disease_index = as.character(trunc(disease_index)))
+    if (!("disease_index_max" %in% colnames(tmp))) {
+      tmp <-
+        tmp %>%
+        group_by(plant) %>%
+        mutate(disease_index_max = max(disease_index)) %>%
+        ungroup()
+    }
+    if (!("trunc_disease_index_max" %in% colnames(tmp))) {
+      tmp <- tmp %>% mutate(trunc_disease_index_max = as.character(trunc(disease_index_max)))
+    }
   }
 
   # Remove experiment if only one is present
