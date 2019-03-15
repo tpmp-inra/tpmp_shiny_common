@@ -35,16 +35,18 @@ load_experience_csv <- function(input) {
     if ("camera" %in% colnames(tmp)) {
       columns_to_remove <- c('camera', columns_to_remove)
     }
-    tmp <-
-      tmp %>%
-      select(-col_to_remove) %>%
-      mutate_if(is.character, str_to_lower) %>%
-      mutate_if(is.character, as.factor) %>%
-      group_by(series_id) %>%
-      mutate_if(is.numeric, median) %>%
-      ungroup() %>%
-      select(-c(series_id)) %>%
-      distinct()
+    if (length(columns_to_remove) > 0) {
+      tmp <-
+        tmp %>%
+        select(-col_to_remove) %>%
+        mutate_if(is.character, str_to_lower) %>%
+        mutate_if(is.character, as.factor) %>%
+        group_by(series_id) %>%
+        mutate_if(is.numeric, median) %>%
+        ungroup() %>%
+        select(-c(series_id)) %>%
+        distinct()
+    }
   }
 
   if (("treatment" %in% colnames(tmp)) &
@@ -67,7 +69,7 @@ load_experience_csv <- function(input) {
       tmp <- tmp %>% mutate(day_after_start = as.numeric(date_time - min(date_time)) / (60*60*24))
     } else {
       if ("date" %in% colnames(tmp)) {
-        tmp <- tmp %>% mutate(day_after_start = date - min(date))
+        tmp <- tmp %>% mutate(day_after_start = as.numeric(date - min(date)))
       }
     }
   }
@@ -84,18 +86,12 @@ load_experience_csv <- function(input) {
     tmp <- tmp %>% mutate(disease_index = 0)
   }
 
-  if (!("trunc_disease_index" %in% colnames(tmp))) {
-    tmp <- tmp %>% mutate(trunc_disease_index = as.character(trunc(disease_index)))
-  }
   if (!("disease_index_max" %in% colnames(tmp))) {
     tmp <-
       tmp %>%
       group_by(plant) %>%
-      mutate(disease_index_max = max(disease_index)) %>%
+      mutate(disease_index_max = max(disease_index, na.rm = TRUE)) %>%
       ungroup()
-  }
-  if (!("trunc_disease_index_max" %in% colnames(tmp))) {
-    tmp <- tmp %>% mutate(trunc_disease_index_max = as.character(trunc(disease_index_max)))
   }
 
   # Remove experiment if only one is present
@@ -109,8 +105,13 @@ load_experience_csv <- function(input) {
   }
 
   # Create natural version of day after start
-  tmp <- tmp %>%
-    mutate(trunc_day_after_start = round(day_after_start))
+  tmp <-
+    tmp %>%
+    mutate(trunc_day_after_start = round(day_after_start)) %>%
+    # drop_na() %>%
+    distinct()
+
+  tmp
 }
 
 #' build_discret_selectImput
