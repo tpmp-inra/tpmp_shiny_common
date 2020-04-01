@@ -1,15 +1,9 @@
-library(tidyverse)
-library(shiny)
-library(gtools)
-
 #' load_experience_csv
 #'
 #' @param input
 #'
 #' @return
 #' @export
-#'
-#' @examples
 load_experience_csv <- function(input) {
 
   infile <- input$datafile
@@ -124,8 +118,6 @@ load_experience_csv <- function(input) {
 #'
 #' @return A combobox filled with the names of the discret columns of the dataframe
 #' @export
-#'
-#' @examples
 build_discret_selectImput <- function(df,
                                       input_id,
                                       label_id,
@@ -159,8 +151,6 @@ build_discret_selectImput <- function(df,
 #'
 #' @return A combobox filled with the names of the numeric columns of the dataframe
 #' @export
-#'
-#' @examples
 build_numeric_selectImput <- function(df,
                                       input_id,
                                       label_id,
@@ -194,8 +184,6 @@ build_numeric_selectImput <- function(df,
 #'
 #' @return A combobox filled with the names of the discret columns of the dataframe
 #' @export
-#'
-#' @examples
 build_string_selectImput <- function(df,
                                      input_id,
                                      label_id,
@@ -225,8 +213,6 @@ build_string_selectImput <- function(df,
 #'
 #' @return
 #' @export
-#'
-#' @examples
 fill_marginal_cb <- function(input_id="cbMarginal") {
   selectInput(input_id,
               "Marginal display mode:",
@@ -242,8 +228,6 @@ fill_marginal_cb <- function(input_id="cbMarginal") {
 #'
 #' @return
 #' @export
-#'
-#' @examples
 fill_normalization_cb <- function(input_id="cbNormalizationMethod"){
   selectInput(input_id,
               "Data normalization method:",
@@ -259,8 +243,6 @@ fill_normalization_cb <- function(input_id="cbNormalizationMethod"){
 #'
 #' @return
 #' @export
-#'
-#' @examples
 fill_palette_selector <- function(input_id="cbPaletteSelector") {
   selectInput(input_id,
               "Color Palette:",
@@ -281,16 +263,14 @@ fill_palette_selector <- function(input_id="cbPaletteSelector") {
 
 #' fill_plant_selection
 #'
-#' @param df
-#' @param input_id
-#' @param label_id
-#' @param selected_text_format
-#' @param preseselct_all
+#' @param df A dataframe
+#' @param input_id A widget's Id
+#' @param label_id The widget's label
+#' @param selected_text_format Format to use when selecting test
+#' @param preseselct_all Initialize with all options selected?
 #'
 #' @return
 #' @export
-#'
-#' @examples
 fill_plant_selection <- function(df,
                                  input_id="cbPlantSelection",
                                  label_id="Select plants to be displayed",
@@ -333,14 +313,12 @@ fill_plant_selection <- function(df,
 
 #' fill_time_selection
 #'
-#' @param df
-#' @param input_id
-#' @param label_id
+#' @param df A dataframe
+#' @param input_id A widget's Id
+#' @param label_id The widget's label
 #'
 #' @return
 #' @export
-#'
-#' @examples
 fill_time_selection <- function(df, input_id = "cbDateTimeSelector", label_id = "Select days to be displayed") {
   df <- df %>% select(trunc_day_after_start)
   df <- df[!(duplicated(df) | duplicated(df, fromLast = FALSE)), ]
@@ -368,15 +346,13 @@ fill_time_selection <- function(df, input_id = "cbDateTimeSelector", label_id = 
 
 #' fill_treatment_selection
 #'
-#' @param df
-#' @param input_id
-#' @param label_id
-#' @param selected_text_format
+#' @param df A dataframe
+#' @param input_id A widget's Id
+#' @param label_id The widget's label
+#' @param selected_text_format Format to use when selecting test
 #'
 #' @return
 #' @export
-#'
-#' @examples
 fill_treatment_selection <- function(df,
                                      input_id="cbTreatmentSelection",
                                      label_id="Select treatments to be displayed",

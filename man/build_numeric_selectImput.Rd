@@ -4,8 +4,13 @@
 \alias{build_numeric_selectImput}
 \title{build_numeric_selectImput}
 \usage{
-build_numeric_selectImput(df, input_id, label_id, selected_item,
-  add_items = c("none"))
+build_numeric_selectImput(
+  df,
+  input_id,
+  label_id,
+  selected_item,
+  add_items = c("none")
+)
 }
 \arguments{
 \item{df}{A dataframe}
